@@ -10,6 +10,8 @@ class NoteListRepositoryImpl(application: Application) : NoteListRepository {
 
     private val noteListDao = AppDataBase.getInstance(application).noteListDao()//DAO
     private val mapper=NoteListMapper()
+    
+
 
     override suspend fun addNoteItem(noteItem: NoteItem) {
         noteListDao.addNoteItem(mapper.mapEntityToDbModel(noteItem))
@@ -29,11 +31,8 @@ class NoteListRepositoryImpl(application: Application) : NoteListRepository {
         return mapper.mapDbModelToEntity(dbModel)
     }
 
-    //преобразует лист ShopItem в ShopIemDbModel
     override fun getNoteList(): LiveData<List<NoteItem>> {
-        //источник данных
         return noteListDao.getNoteList().map {
-            //обрабатываем  коллекцию NoteItemDbModel (в NoteItem)
             mapper.mapListDbModelToListEntity(it)
         }
     }

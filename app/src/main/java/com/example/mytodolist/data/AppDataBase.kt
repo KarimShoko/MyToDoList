@@ -8,21 +8,20 @@ import androidx.room.RoomDatabase
 @Database(entities = [NoteItemDbModel::class], version = 1, exportSchema = false)
 abstract class AppDataBase : RoomDatabase() {
 
-    abstract fun noteListDao(): NoteListDao//возвращает экземпляр интерфейса DAO(для работы с БД)
+    abstract fun noteListDao(): NoteListDao
 
-    //Singleton
+
     companion object {
 
-        private var INSTANCE: AppDataBase? = null//хранит экземпляр БД
+        private var INSTANCE: AppDataBase? = null
         private val LOCK = Any()
         private val DB_NAME = "note_item.db"
 
-        //чтобы получить БД-нужен контекст
-        fun getInstance(application: Application): AppDataBase {//возвращает БД
-            INSTANCE?.let { return it }//если переменной уже присвоено значение-то сразу вернем
+        fun getInstance(application: Application): AppDataBase {
+            INSTANCE?.let { return it }
             kotlin.synchronized(LOCK) {
                 INSTANCE?.let { return it }
-                val db = Room.databaseBuilder(//создаем экземпляр БД
+                val db = Room.databaseBuilder(
                     application,
                     AppDataBase::class.java,
                     DB_NAME

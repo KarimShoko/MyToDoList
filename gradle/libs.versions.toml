@@ -1,6 +1,9 @@
 [versions]
+viewModel_version = "2.8.7"
+room_version = "2.6.1"
+ksp_version = "2.0.21-1.0.27"
 agp = "8.7.3"
-kotlin = "1.9.24"
+kotlin = "2.0.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -9,9 +12,21 @@ appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
+roomRuntime = "2.6.1"
+
 
 [libraries]
+#Библиотека Room
+room = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
+#Кодогенератор
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
+#optional - Kotlin Extensions and Coroutines support for Room
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
+#ViewModel
+viewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewModel_version" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -21,6 +36,7 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 

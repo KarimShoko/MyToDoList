@@ -1,50 +1,58 @@
 package com.example.mytodolist.presentation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.example.mytodolist.R
+import androidx.recyclerview.widget.ListAdapter
+import com.example.mytodolist.databinding.NoteItemHighBinding
+import com.example.mytodolist.databinding.NoteItemLowBinding
+import com.example.mytodolist.databinding.NoteItemMediumBinding
 import com.example.mytodolist.domain.NoteItem
 import com.example.mytodolist.domain.Priority
 
-class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>() {
 
-    //коллекция элементов,которую будем отображать
-    var noteList = listOf<NoteItem>()
-        //чтобы устанавливать значения снаружи
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class NoteListAdapter : ListAdapter<NoteItem, NoteItemViewHolder>(NoteItemDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val layout = when (viewType) {
-            VIEW_TYPE_LOW -> R.layout.note_item_low
-            VIEW_TYPE_MEDIUM -> R.layout.note_item_medium
-            VIEW_TYPE_HIGH -> R.layout.note_item_hight
+    var onNoteItemClickListener: ((NoteItem) -> Unit)? = null
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteItemViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = when (viewType) {
+            VIEW_TYPE_LOW -> NoteItemLowBinding.inflate(layoutInflater, parent, false)
+            VIEW_TYPE_MEDIUM -> NoteItemMediumBinding.inflate(layoutInflater, parent, false)
+            VIEW_TYPE_HIGH -> NoteItemHighBinding.inflate(layoutInflater, parent, false)
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(layout, parent, false)
-        return NoteViewHolder(view)
+        return NoteItemViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        val noteItem = noteList[position]
-        holder.tvName.text = noteItem.name
-        holder.tvText.text = noteItem.text
+    override fun onBindViewHolder(holder: NoteItemViewHolder, position: Int) {
+        val noteItem = getItem(position)
 
-    }
+        holder.binding.root.setOnClickListener {
+            onNoteItemClickListener?.invoke(noteItem)
+        }
 
-    override fun getItemCount(): Int {//возвращает кол-во элементов коллекции
-        return noteList.size
+        when (val binding = holder.binding) {
+            is NoteItemLowBinding -> {
+                binding.tvName.text = noteItem.name
+                binding.tvText.text = noteItem.text
+            }
+
+            is NoteItemMediumBinding -> {
+                binding.tvName.text = noteItem.name
+                binding.tvText.text = noteItem.text
+            }
+
+            is NoteItemHighBinding -> {
+                binding.tvName.text = noteItem.name
+                binding.tvText.text = noteItem.text
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val noteItem = noteList[position]
+        val noteItem = getItem(position)
         return when (noteItem.priority) {
             Priority.LOW -> VIEW_TYPE_LOW
             Priority.MEDIUM -> VIEW_TYPE_MEDIUM
@@ -52,21 +60,10 @@ class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>() {
         }
     }
 
-    class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvName = view.findViewById<TextView>(R.id.tv_name)
-        val tvText = view.findViewById<TextView>(R.id.tv_text)
-    }
-
-    interface onNoteItemClickListener{//интерфейс на долгое нажатие
-        fun onShopItemLongClickListener(noteItem: NoteItem)
-    }
-
     companion object {
         const val VIEW_TYPE_LOW = 100
         const val VIEW_TYPE_MEDIUM = 101
         const val VIEW_TYPE_HIGH = 102
         const val MAX_POOL_SIZE = 15
-
-
     }
 }
