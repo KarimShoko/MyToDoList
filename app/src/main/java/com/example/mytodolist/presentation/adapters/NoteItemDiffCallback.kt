@@ -1,4 +1,4 @@
-package com.example.mytodolist.presentation
+package com.example.mytodolist.presentation.adapters
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.mytodolist.domain.NoteItem

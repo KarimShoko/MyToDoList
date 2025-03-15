@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.mytodolist.data.NoteListRepositoryImpl
+import com.example.mytodolist.data.repository.NoteListRepositoryImpl
 import com.example.mytodolist.domain.AddNoteItemUseCase
 import com.example.mytodolist.domain.EditNoteItemUseCase
 import com.example.mytodolist.domain.GetNoteItemUseCase
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class NoteItemViewModel(application: Application) : AndroidViewModel(application) {
 
-    val repository = NoteListRepositoryImpl(application)
+    private val repository = NoteListRepositoryImpl(application)
 
     private val addNoteItemUseCase = AddNoteItemUseCase(repository)
     private val editNoteItemUseCase = EditNoteItemUseCase(repository)

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytodolist.R
+import com.example.mytodolist.presentation.adapters.NoteListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class NoteListFragment : Fragment() {
