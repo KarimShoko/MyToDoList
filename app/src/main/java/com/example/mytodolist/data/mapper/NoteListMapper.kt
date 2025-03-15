@@ -1,5 +1,6 @@
-package com.example.mytodolist.data
+package com.example.mytodolist.data.mapper
 
+import com.example.mytodolist.data.database.NoteItemDbModel
 import com.example.mytodolist.domain.NoteItem
 
 class NoteListMapper {

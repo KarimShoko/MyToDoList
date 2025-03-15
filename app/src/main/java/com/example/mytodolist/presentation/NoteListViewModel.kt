@@ -3,7 +3,7 @@ package com.example.mytodolist.presentation
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mytodolist.data.NoteListRepositoryImpl
+import com.example.mytodolist.data.repository.NoteListRepositoryImpl
 import com.example.mytodolist.domain.DeleteNoteItemUseCase
 import com.example.mytodolist.domain.GetNoteListUseCase
 import com.example.mytodolist.domain.NoteItem

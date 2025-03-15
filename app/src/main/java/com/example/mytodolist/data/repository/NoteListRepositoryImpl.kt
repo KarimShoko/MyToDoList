@@ -1,15 +1,17 @@
-package com.example.mytodolist.data
+package com.example.mytodolist.data.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import com.example.mytodolist.data.database.AppDataBase
+import com.example.mytodolist.data.mapper.NoteListMapper
 import com.example.mytodolist.domain.NoteItem
 import com.example.mytodolist.domain.NoteListRepository
 
 class NoteListRepositoryImpl(application: Application) : NoteListRepository {
 
     private val noteListDao = AppDataBase.getInstance(application).noteListDao()//DAO
-    private val mapper=NoteListMapper()
+    private val mapper= NoteListMapper()
     
 
 
