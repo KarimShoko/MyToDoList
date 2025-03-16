@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytodolist.R
+import com.example.mytodolist.databinding.FragmentNoteItemBinding
+import com.example.mytodolist.databinding.FragmentNoteListBinding
 import com.example.mytodolist.presentation.adapters.NoteListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -16,11 +18,16 @@ class NoteListFragment : Fragment() {
     private lateinit var viewModel: NoteListViewModel
     private lateinit var noteListAdapter: NoteListAdapter
 
+    private var _binding: FragmentNoteListBinding? = null
+    private val binding: FragmentNoteListBinding
+        get() = _binding ?: throw RuntimeException("FragmentNoteListBinding=null")
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_note_list, container, false)
+        _binding = FragmentNoteListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,24 +44,23 @@ class NoteListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        val rvNoteList = view?.findViewById<RecyclerView>(R.id.rv_note_list)
         noteListAdapter = NoteListAdapter()
-        rvNoteList?.adapter = noteListAdapter
-        rvNoteList?.recycledViewPool?.setMaxRecycledViews(
+        binding.rvNoteList.adapter = noteListAdapter
+        binding.rvNoteList.recycledViewPool.setMaxRecycledViews(
             NoteListAdapter.VIEW_TYPE_LOW,
             NoteListAdapter.MAX_POOL_SIZE
         )
-        rvNoteList?.recycledViewPool?.setMaxRecycledViews(
+        binding.rvNoteList.recycledViewPool.setMaxRecycledViews(
             NoteListAdapter.VIEW_TYPE_MEDIUM, NoteListAdapter.MAX_POOL_SIZE
         )
-        rvNoteList?.recycledViewPool?.setMaxRecycledViews(
+        binding.rvNoteList.recycledViewPool.setMaxRecycledViews(
             NoteListAdapter.VIEW_TYPE_HIGH,
             NoteListAdapter.MAX_POOL_SIZE
         )
         noteListAdapter.onNoteItemClickListener = {
             launchNoteItemEditFragment(it.id)
         }
-        setupSwipeToDelete(rvNoteList)
+        setupSwipeToDelete(binding.rvNoteList)
     }
 
     private fun setupSwipeToDelete(rvShopList: RecyclerView?) {
